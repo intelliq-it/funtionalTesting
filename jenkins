@@ -8,15 +8,14 @@ node('built-in')
    {
        sh 'mvn package'
    } 
-    stage('continuousDeployment') 
+    stage('continuousDeployment')
    {
-     deploy adapters: [tomcat9(credentialsId: '85ce6a59-2ad4-43fb-a8c8-311782565f54', path: '', url: 'http://172.31.87.17:8080')], contextPath: 'testapp', war: '**/*.war'
+      deploy adapters: [tomcat9(credentialsId: '85ce6a59-2ad4-43fb-a8c8-311782565f54', path: '', url: 'http://172.31.87.17:8080')], contextPath: 'testapp', war: '**/*.war'
    } 
     stage('continuousTesting') 
    {
-       git 'https://github.com/intelliqittrainings/FunctionalTesting.git'
-       
-       sh 'java -jar testing.jar'
+     git 'https://github.com/intelliqittrainings/FunctionalTesting.git'
+     sh 'java -jar testing.jar'
    } 
     stage('continuousDelivery') 
    {
@@ -24,9 +23,4 @@ node('built-in')
        
      deploy adapters: [tomcat9(credentialsId: '85ce6a59-2ad4-43fb-a8c8-311782565f54', path: '', url: 'http://172.31.88.129:8080')], contextPath: 'prodapp', war: '**/*.war'
    } 
-   
-   
-   
-   
-   
 }
